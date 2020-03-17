@@ -1,0 +1,24 @@
+{
+  "name": "webproject",
+  "version": "1.0.0",
+  "description": "University Project With NodeJS",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Airels/WebProject.git"
+  },
+  "author": "Airels, GrosFlan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Airels/WebProject/issues"
+  },
+  "homepage": "https://github.com/Airels/WebProject#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mustache-express": "^1.3.0"
+  }
+}

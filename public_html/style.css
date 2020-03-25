@@ -1,0 +1,10 @@
+html,
+body{
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-image: url('https://ekladata.com/yoX3K7VBCyGYg3AnAQzfuaoDWQw.gif');
+    background-size: cover;
+}

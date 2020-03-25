@@ -51,21 +51,33 @@ app.post('/login', alreadyAuthenticated, (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
 
-    if (username === undefined || password === undefined)
+    if (username == "" || password == "")
         res.redirect('/login?error=1');
-
-    if (!db.login(username, password))
+    else if (!db.login(username, password))
         res.redirect('/login?error=2');
-
-    req.session.username = username;
-    req.session.isAdmin = db.isAdmin(username);
-    req.session.isPremium = db.isPremium(username);
-
-    res.redirect('/home/');
+    else {
+        req.session.username = username;
+        req.session.isAdmin = db.isAdmin(username);
+        req.session.isPremium = db.isPremium(username);
+        res.redirect('/home/');
+    }
 });
 
 app.post('/register', alreadyAuthenticated, (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
+    let email = req.body.email;
 
+    if (username == "" || password == "" || email == "")
+        res.redirect('/register?error=1');
+    else if (!db.register(username, login, email))
+        res.redirect('/register?error=2');
+    else {
+        req.session.username = username;
+        res.session.isAdmin = false;
+        req.session.isPremium = false;
+        res.redirect('/home/');
+    }
 });
 
 

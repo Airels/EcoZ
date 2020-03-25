@@ -75,6 +75,6 @@ app.get('/home/', isAuthenticated, (req, res) => {
     res.render('home/index');
 });
 
-app.use((express.static('resources')));
+app.use((express.static('public_html')));
 
 app.listen(SERVER_PORT, console.log("Server listening on port " + SERVER_PORT));

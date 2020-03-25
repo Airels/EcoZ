@@ -1,0 +1,35 @@
+Tables SQL :
+- Utilisateurs (id, username, password, hereSince, totalScore, isAdmin, isPremium)
+- Questions (id, title, creator, creationDate, listIDAnswers, idCorrectAnswer)
+- Réponses (id, content)
+
+Roles :
+- basique
+- premium
+- admin
+
+Routes :
+- login / page d'accueil -> username + mdp
+- accueil après login
+	-> bouton commencer questionnnaire + bouton voir profil
+- questionnaires (10)
+	-> cookie des id pour save les questions posés
+	-> cookie pour le score
+- fin questionnaire
+	-> enregister score dans bdd
+- profil
+	-> voir scores, poser questions (si autorisé)
+	-> supprimer le compte
+- poser questions
+
+ADMIN :
+- voir toutes les questions et les visualiser/éditer/supprimer
+- voir tout les utilisateurs et les bannir/supprimer/changer leur paramètres/status
+
+Routes POST :
+- Vérification login
+- vérif ajout question
+- vérif changer mdp
+- tout ce qui est édition admin
+- vérificateur de réponses
+	-> n° question, n° réponse

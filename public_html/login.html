@@ -9,15 +9,15 @@
             <p>Mot de passe : <input class="form-control" type="password" name="password" id="password" required></p>
             
             {{#error1}}
-              <p> Nom d'utilisateur ou mot de passe manquant</p>
+              <p class="text-danger"> Nom d'utilisateur ou mot de passe manquant</p>
             {{/error1}}
 
             {{#error2}}
-              <p>Nom d'utilisateur ou mot de passe incorrect</p>
+              <p class="text-danger">Nom d'utilisateur ou mot de passe incorrect</p>
             {{/error2}}
             
 
-            <input class="form-control btn btn-primary" type="submit" value="Submit">
+            <input class="form-control btn btn-secondary" type="submit" value="Se connecter">
           </div>
         </div>
       </div>

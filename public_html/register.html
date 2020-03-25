@@ -10,18 +10,17 @@
             <p>Addresse E-Mail : <input class="form-control" type="email" name="email" id="email" required></p>
             
             {{#error1}}
-              <p> Erreur 1 a definir</p>
+              <p class="text-danger"> Un des champs nécessaire à l'inscription n'est pas rempli.</p>
             {{/error1}}
 
             {{#error2}}
-              <p> Erreur 2 a definir</p>
+              <p class="text-danger"> Nom d'utilisateur ou adresse e-mail déjà existant.</p>
             {{/error2}}
             
 
-            <input class="form-control btn btn-primary" type="submit" value="Submit">
+            <input class="form-control btn btn-success" type="submit" value="S'inscrire">
           </div>
         </div>
       </div>
-    
   </form>
 {{> footer}}

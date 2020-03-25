@@ -24,6 +24,15 @@ function alreadyAuthenticated(req, res, next) {
     return next();
 }
 
+function isAuthenticated(req, res, next) {
+    if (req.session.user !== undefined) {
+        res.locals.auth = true;
+        return next();
+    }
+
+    res.redirect('/login');
+}
+
 
 // ROUTES
 app.get('/', (req, res) => {
@@ -61,20 +70,11 @@ app.post('/register', alreadyAuthenticated, (req, res) => {
 
 
 // AUTHENTICATION REQUIRED UNTIL HERE
-app.use((req, res, next) => {
-    if (req.session.user !== undefined) {
-        res.locals.auth = true;
-        return next();
-    }
 
-    res.redirect('/login');
-});
-
-
-app.get('/home/', (req, res) => {
+app.get('/home/', isAuthenticated, (req, res) => {
     res.render('home/index');
 });
 
-app.use((express.static('public_html')));
+app.use((express.static('resources')));
 
 app.listen(SERVER_PORT, console.log("Server listening on port " + SERVER_PORT));

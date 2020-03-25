@@ -41,8 +41,8 @@ app.get('/', (req, res) => {
 
 app.get('/login', alreadyAuthenticated, (req, res) => {
     let error = req.query.error;
-    if (error == 1) data.error1 = true;
-    if (error == 2) data.error2 = true;
+    if (error == 1) res.locals.error1 = true;
+    if (error == 2) res.locals.error2 = true;
 
     res.render('login');
 });

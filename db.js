@@ -20,10 +20,10 @@ exports.register = (username, password, email) => {
 
     let today = Date.now();
 
-    let found = db.prepare("SELECT id FROM users WHERE username = ? AND email = ?").get([username, email]);
+    let found = db.prepare("SELECT id FROM users WHERE username = ? AND mail = ?").get([username, email]);
     
     if (found !== undefined) {
-        db.prepare("INSERT INTO users (username, password, email, hereSince) VALUES(?, ?, ?, ?)").run([
+        db.prepare("INSERT INTO users (username, password, mail, hereSince) VALUES(?, ?, ?, ?)").run([
             username,
             passwordHashed,
             email,

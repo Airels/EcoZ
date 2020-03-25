@@ -82,7 +82,7 @@ app.post('/register', alreadyAuthenticated, (req, res) => {
         res.redirect('/register?error=2');
     else {
         req.session.username = username;
-        res.session.isAdmin = false;
+        req.session.isAdmin = false;
         req.session.isPremium = false;
         res.redirect('/home/');
     }

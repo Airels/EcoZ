@@ -78,7 +78,7 @@ app.post('/register', alreadyAuthenticated, (req, res) => {
 
     if (username == "" || password == "" || email == "")
         res.redirect('/register?error=1');
-    else if (!db.register(username, login, email))
+    else if (!db.register(username, password, email))
         res.redirect('/register?error=2');
     else {
         req.session.username = username;

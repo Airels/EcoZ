@@ -1,19 +1,14 @@
 "use strict"
 const sqlite = require('better-sqlite3');
 const db = new sqlite('db.sqlite');
-// to encrypt password
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
 
 exports.login = (username, password) => {
-    let passwordHashed = db.prepare("SELECT password FROM users WHERE username = ?").get([username]);
-    return (bcrypt.compareSync(password, passwordHashed));
+    let found = db.prepare("SELECT id FROM users WHERE username = ? AND password = ?").get([username, password]);
+
+    return (found !== undefined);
 }
 
 exports.register = (username, password, email) => {
-    let salt = bcrypt.genSaltSync(saltRounds);
-    let passwordHashed = bcrypt.hashSync(password, salt);
-
     let today = Date.now();
 
     let found = db.prepare("SELECT id FROM users WHERE username = ? OR mail = ?").get([username, email]);
@@ -21,7 +16,7 @@ exports.register = (username, password, email) => {
     if (found === undefined) {
         db.prepare("INSERT INTO users (username, password, mail, hereSince) VALUES(?, ?, ?, ?)").run([
             username,
-            passwordHashed,
+            password,
             email,
             today
         ]);

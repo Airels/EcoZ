@@ -18,15 +18,17 @@ app.set('views', './public_html');
 
 // MIDDLEWARES
 function alreadyAuthenticated(req, res, next) {
-    if (req.session.user !== undefined)
-        res.redirect('/home');
+    if (req.session.username !== undefined)
+        return res.redirect('/home');
     
     return next();
 }
 
 function isAuthenticated(req, res, next) {
-    if (req.session.user !== undefined) {
-        res.locals.auth = true;
+    if (req.session.username !== undefined) {
+        res.locals.username = req.session.username;
+        res.locals.isAdmin = req.session.isAdmin;
+        res.locals.isPremium = req.session.isPremium;
         return next();
     }
 
@@ -35,7 +37,7 @@ function isAuthenticated(req, res, next) {
 
 
 // ROUTES
-app.get('/', (req, res) => {
+app.get('/', alreadyAuthenticated, (req, res) => {
     res.render('index');
 });
 
@@ -60,15 +62,14 @@ app.post('/login', alreadyAuthenticated, (req, res) => {
     let password = req.body.password;
 
     if (username == "" || password == "")
-        res.redirect('/login?error=1');
+        return res.redirect('/login?error=1');
     else if (!db.login(username, password))
-        res.redirect('/login?error=2');
-    else {
-        req.session.username = username;
-        req.session.isAdmin = db.isAdmin(username);
-        req.session.isPremium = db.isPremium(username);
-        res.redirect('/home/');
-    }
+        return res.redirect('/login?error=2');
+    
+    req.session.username = username;
+    req.session.isAdmin = db.isAdmin(username);
+    req.session.isPremium = db.isPremium(username);
+    res.redirect('/home/');
 });
 
 app.post('/register', alreadyAuthenticated, (req, res) => {
@@ -77,15 +78,14 @@ app.post('/register', alreadyAuthenticated, (req, res) => {
     let email = req.body.email;
 
     if (username == "" || password == "" || email == "")
-        res.redirect('/register?error=1');
-    else if (!db.register(username, password, email))
-        res.redirect('/register?error=2');
-    else {
-        req.session.username = username;
-        req.session.isAdmin = false;
-        req.session.isPremium = false;
-        res.redirect('/home/');
-    }
+        return res.redirect('/register?error=1');
+    if (!db.register(username, password, email))
+        return res.redirect('/register?error=2');
+    
+    req.session.username = username;
+    req.session.isAdmin = false;
+    req.session.isPremium = false;
+    res.redirect('/home/');
 });
 
 

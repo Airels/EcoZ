@@ -40,11 +40,23 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', alreadyAuthenticated, (req, res) => {
-    res.render('login');
+    let data = {};
+
+    let error = req.query.error;
+    if (error == 1) data.error1 = true;
+    if (error == 2) data.error2 = true;
+
+    res.render('login', data);
 });
 
 app.get('/register', alreadyAuthenticated, (req, res) => {
-    res.render('register');
+    let data = {};
+
+    let error = req.query.error;
+    if (error == 1) data.error1 = true;
+    if (error == 2) data.error2 = true;
+
+    res.render('register', data);
 });
 
 app.post('/login', alreadyAuthenticated, (req, res) => {

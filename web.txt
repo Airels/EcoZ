@@ -1,5 +1,5 @@
 Tables SQL :
-- Utilisateurs (id, username, password, hereSince, totalScore, isAdmin, isPremium)
+- Utilisateurs (id, username, password, email, hereSince, totalScore, isAdmin, isPremium)
 - Questions (id, title, creator, creationDate, listIDAnswers, idCorrectAnswer)
 - Réponses (id, content)
 

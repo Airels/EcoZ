@@ -36,10 +36,10 @@ exports.register = (username, password, email) => {
     return false;
 }
 
-exports.isAdmin((username) => {
+exports.isAdmin = ((username) => {
     return (db.prepare("SELECT isAdmin FROM users WHERE username = ?").get(username));
 });
 
-exports.isPremium((username) => {
+exports.isPremium = ((username) => {
     return (db.prepare("SELECT isPremium FROM users WHERE username = ?").get(username));
 });

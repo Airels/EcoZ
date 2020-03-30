@@ -35,6 +35,13 @@ function isAuthenticated(req, res, next) {
     res.redirect('/login');
 }
 
+function isInQuestionSession() {
+    if (req.session.inQuestionSession === undefined)
+        return res.redirect('/home/');
+
+    return next();
+}
+
 
 // ROUTES
 app.get('/', alreadyAuthenticated, (req, res) => {
@@ -94,14 +101,45 @@ app.get('/home/', isAuthenticated, (req, res) => {
     res.render('home/index');
 });
 
-app.get('/startQuestions', isAuthenticated, (req, res) => {
+app.get('/home/startQuestions', isAuthenticated, (req, res) => {
+    res.render('home/startQuestions.html');
+});
+
+app.post('/home/startQuestions', isAuthenticated, (req, res) => {
+    req.session.inQuestionSession = true;
+    req.session.idQuestionsDone = [];
+    req.session.userPoints = db.getPoints(req.session.username);
+
+    res.redirect('/home/q/1');
+});
+
+app.get('/home/q/:id', isAuthenticated, isInQuestionSession, (req, res) => {
+    let data = {};
+    data.question = "Cette question est-elle totalement inutile ?"
+    data.answers = [{
+        id: "1",
+        content: "Oui"
+    }, {
+        id: "2",
+        content: "Non"
+    }];
+
+    res.render('home/question.html', data);
+});
+
+app.post('/home/q/:id/:answerID', isAuthenticated, isInQuestionSession, (req, res) => {
 
 });
 
-app.get('/home/q', isAuthenticated, (req, res) => {
-    
+app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) => {
+    req.session.inQuestionSession = undefined;
 });
+
 
 app.use((express.static('public_html')));
+
+app.use((req, res) => {
+    res.setHeader(404).send("404 Error - Not found");
+});
 
 app.listen(SERVER_PORT, console.log("Server listening on port " + SERVER_PORT));

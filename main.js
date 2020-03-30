@@ -90,9 +90,16 @@ app.post('/register', alreadyAuthenticated, (req, res) => {
 
 
 // AUTHENTICATION REQUIRED UNTIL HERE
-
 app.get('/home/', isAuthenticated, (req, res) => {
     res.render('home/index');
+});
+
+app.get('/startQuestions', isAuthenticated, (req, res) => {
+
+});
+
+app.get('/home/q', isAuthenticated, (req, res) => {
+    
 });
 
 app.use((express.static('public_html')));

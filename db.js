@@ -2,6 +2,9 @@
 const sqlite = require('better-sqlite3');
 const db = new sqlite('db.sqlite');
 
+// USERS MANAGEMENT
+
+// access
 exports.login = (username, password) => {
     let found = db.prepare("SELECT id FROM users WHERE username = ? AND password = ?").get([username, password]);
 
@@ -27,6 +30,7 @@ exports.register = (username, password, email) => {
     return false;
 }
 
+// permissions
 exports.isAdmin = ((username) => {
     return (db.prepare("SELECT isAdmin FROM users WHERE username = ?").get(username));
 });
@@ -34,3 +38,39 @@ exports.isAdmin = ((username) => {
 exports.isPremium = ((username) => {
     return (db.prepare("SELECT isPremium FROM users WHERE username = ?").get(username));
 });
+
+// points
+exports.getPoints = (username) => {
+    return;
+}
+
+exports.setPoints = (username, points) => {
+
+}
+
+
+// QUESTIONS MANAGEMENTS
+
+// gets
+exports.getQuestion = () => {
+
+    return idQuestion;
+}
+
+exports.getAnswers = (idQuestion) => {
+    var answers = {};
+}
+
+exports.isGoodAnswer = (idQuestion, isAnswer) => {
+    
+    return true;
+}
+
+// sets
+exports.addQuestion = (question, answers) => {
+
+}
+
+exports.addAnswer = (answer) => {
+
+}

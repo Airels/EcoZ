@@ -24,6 +24,17 @@ function alreadyAuthenticated(req, res, next) {
     return next();
 }
 
+function isAuthenticated(req, res, next) {
+    if (req.session.username !== undefined) {
+        res.locals.username = req.session.username;
+        res.locals.isAdmin = req.session.isAdmin;
+        res.locals.isPremium = req.session.isPremium;
+        return next();
+    }
+
+    res.redirect('/login');
+}
+
 
 // ROUTES
 app.get('/', alreadyAuthenticated, (req, res) => {
@@ -79,7 +90,10 @@ app.post('/register', alreadyAuthenticated, (req, res) => {
 
 
 // AUTHENTICATION REQUIRED UNTIL HERE
-require('routesHome.js');
+
+app.get('/home/', isAuthenticated, (req, res) => {
+    res.render('home/index');
+});
 
 app.use((express.static('public_html')));
 

@@ -32,42 +32,40 @@ exports.register = (username, password, email) => {
 
 // permissions
 exports.isAdmin = ((username) => {
-    return (db.prepare("SELECT isAdmin FROM users WHERE username = ?").get(username));
+    return (db.prepare("SELECT isAdmin FROM users WHERE username = ?").get(username)).isAdmin;
 });
 
 exports.isPremium = ((username) => {
-    return (db.prepare("SELECT isPremium FROM users WHERE username = ?").get(username));
+    return (db.prepare("SELECT isPremium FROM users WHERE username = ?").get(username)).isAdmin;
 });
 
 // points
 exports.getPoints = (username) => {
-    return;
+    return (db.prepare("SELECT totalScore FROM users WHERE username = ?").get(username)).totalScore;
 }
 
 exports.setPoints = (username, points) => {
-
+    db.prepare("UPDATE users SET totalScore = ? WHERE username = ?").run(points, username);
 }
 
 
 // QUESTIONS MANAGEMENTS
 
 // gets
-exports.getQuestion = () => {
-
-    return idQuestion;
+exports.getQuestion = (idQuestion) => {
+    return (db.prepare("SELECT * FROM questions WHERE id = ?").get(idQuestion));
 }
 
-exports.getAnswers = (idQuestion) => {
-    var answers = {};
+exports.getAnswer = (idAnswer) => {
+    return (db.prepare("SELECT * FROM answers WHERE id = ?").get(idAnswer));
 }
 
-exports.isGoodAnswer = (idQuestion, isAnswer) => {
-    
-    return true;
+exports.isGoodAnswer = (idQuestion, idAnswer) => {
+    return (idAnswer == this.getQuestion(idQuestion));
 }
 
 // sets
-exports.addQuestion = (question, answers) => {
+exports.addQuestion = (question, creator, answers, goodAnswer) => {
 
 }
 

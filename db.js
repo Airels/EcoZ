@@ -64,6 +64,10 @@ exports.isGoodAnswer = (idQuestion, idAnswer) => {
     return (idAnswer == this.getQuestion(idQuestion));
 }
 
+exports.getNbOfQuestions = () => {
+    return (db.prepare("SELECT LENGTH('questions');").run());
+}
+
 // sets
 exports.addQuestion = (question, creator, answers, goodAnswer) => {
 

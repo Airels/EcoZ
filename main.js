@@ -17,6 +17,7 @@ app.use(cookieSession({ secret: Math.floor(Math.random()*100).toString() }));
 app.set('view engine', 'html');
 app.set('views', './public_html');
 
+
 // MIDDLEWARES
 function alreadyAuthenticated(req, res, next) {
     if (req.session.username !== undefined)
@@ -104,7 +105,7 @@ app.get('/home/', isAuthenticated, (req, res) => {
 });
 
 app.get('/home/startQuestions', isAuthenticated, (req, res) => {
-    res.render('home/startQuestions.html');
+    res.render('home/startQuestions');
 });
 
 app.post('/home/startQuestions', isAuthenticated, (req, res) => {
@@ -115,7 +116,6 @@ app.post('/home/startQuestions', isAuthenticated, (req, res) => {
 });
 
 app.get('/home/q/:id', isAuthenticated, isInQuestionSession, (req, res) => {
-
     let questionResult = db.getQuestion(req.params.id);
     /*
         QUESTION OBJECT :
@@ -143,7 +143,8 @@ app.get('/home/q/:id', isAuthenticated, isInQuestionSession, (req, res) => {
         question: questionResult,
         answers: answersArray
     }
-    
+
+    res.render('question', data);
 });
 
 app.post('/home/q/:id/:answerID', isAuthenticated, isInQuestionSession, (req, res) => {
@@ -156,28 +157,42 @@ app.post('/home/q/:id/:answerID', isAuthenticated, isInQuestionSession, (req, re
         return res.redirect("/home/endQuestions");
 
 
+    req.session.idQuestionsDone.push(req.params.id); // ADDING ACTUAL QUESTION
+
     let nbOfQuestions = db.getNbOfQuestions();
     let randomInt;
 
     do {
         randomInt = utils.getRandomInt(nbOfQuestions)
-    } while (req.session.idQuestionsDone.includes(randomInt));
+    } while (req.session.idQuestionsDone.includes(randomInt)); // CONTINUE UNTIL FOUND QUESTION NOT ASKED BEFORE
 
     res.render('/home/q/${randomInt}');
 });
 
 app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) => {
     req.session.inQuestionSession = undefined;
-    req.idQuestionsDone = undefined;
+    req.session.idQuestionsDone = undefined;
+
+    let data = {
+        oldPoints: db.getPoints(req.session.username),
+        newPoints: req.session.points,
+        questionsAsked: req.session.idQuestionsDone,
+        goodAnswers: [] // TODO
+    }
+    res.render('endQuestions', data);
 
     db.setPoints(req.session.username, req.session.points);
 });
 
 
+// STATIC FILES
 app.use((express.static('public_html')));
 
+
+// ERRORS
 app.use((req, res) => {
     res.setHeader(404).send("404 Error - Not found");
 });
 
-app.listen(SERVER_PORT, console.log("Server listening on port " + SERVER_PORT));
+
+app.listen(SERVER_PORT, console.log("Server listening on http://localhost:" + SERVER_PORT));

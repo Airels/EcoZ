@@ -6,6 +6,7 @@ const cookieSession = require('cookie-session');
 const SERVER_PORT = 3000;
 
 const db = require('./db')
+const utils = require('./utils');
 
 const app = express();
 
@@ -90,8 +91,9 @@ app.post('/register', alreadyAuthenticated, (req, res) => {
         return res.redirect('/register?error=2');
     
     req.session.username = username;
-    req.session.isAdmin = false;
-    req.session.isPremium = false;
+    req.session.points = db.getPoints(username);
+    req.session.isAdmin = db.isAdmin(username);
+    req.session.isPremium = db.isPremium(username);
     res.redirect('/home/');
 });
 
@@ -108,31 +110,67 @@ app.get('/home/startQuestions', isAuthenticated, (req, res) => {
 app.post('/home/startQuestions', isAuthenticated, (req, res) => {
     req.session.inQuestionSession = true;
     req.session.idQuestionsDone = [];
-    req.session.userPoints = db.getPoints(req.session.username);
 
     res.redirect('/home/q/1');
 });
 
 app.get('/home/q/:id', isAuthenticated, isInQuestionSession, (req, res) => {
-    let data = {};
-    data.question = "Cette question est-elle totalement inutile ?"
-    data.answers = [{
-        id: "1",
-        content: "Oui"
-    }, {
-        id: "2",
-        content: "Non"
-    }];
 
-    res.render('home/question.html', data);
+    let questionResult = db.getQuestion(req.params.id);
+    /*
+        QUESTION OBJECT :
+        question.id,
+        question.title,
+        question.creator,
+        question.creationDate <- (timestamp),
+        question.listIDAnswers <- (must be splitted by ','),
+        question.idCorrectAnswer
+    */
+
+    let answersString = question.listIDAnswers.split(',');
+    let answersArray = [];
+
+    answersString.array.forEach(idAnswer => {
+        answersArray.push(db.getAnswer);
+    });
+    /*
+        ANSWER OBJECT :
+        answer.id,
+        answer.content
+    */
+
+    let data = {
+        question: questionResult,
+        answers: answersArray
+    }
+    
 });
 
 app.post('/home/q/:id/:answerID', isAuthenticated, isInQuestionSession, (req, res) => {
+    if (db.isGoodAnswer(req.params.id, req.params.answerID))
+        req.session.points += 1;
+    else
+        req.session.points -= 1;
 
+    if (req.session.idQuestionsDone.length >= 2)
+        return res.redirect("/home/endQuestions");
+
+
+    let nbOfQuestions = db.getNbOfQuestions();
+    let randomInt;
+
+    do {
+        randomInt = utils.getRandomInt(nbOfQuestions)
+    } while (req.session.idQuestionsDone.includes(randomInt));
+
+    res.render('/home/q/${randomInt}');
 });
 
 app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) => {
     req.session.inQuestionSession = undefined;
+    req.idQuestionsDone = undefined;
+
+    db.setPoints(req.session.username, req.session.points);
 });
 
 

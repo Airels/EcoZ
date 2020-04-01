@@ -111,12 +111,13 @@ app.get('/home/startQuestions', isAuthenticated, (req, res) => {
 app.post('/home/startQuestions', isAuthenticated, (req, res) => {
     req.session.inQuestionSession = true;
     req.session.idQuestionsDone = [];
+    req.session.actualIDQuestion = utils.getRandomInt(db.getNbOfQuestions());
 
     res.redirect('/home/q/1');
 });
 
-app.get('/home/q/:id', isAuthenticated, isInQuestionSession, (req, res) => {
-    let questionResult = db.getQuestion(req.params.id);
+app.get('/home/q', isAuthenticated, isInQuestionSession, (req, res) => {
+    let questionResult = db.getQuestion(req.session.actualIDQuestion);
     /*
         QUESTION OBJECT :
         question.id,
@@ -147,8 +148,8 @@ app.get('/home/q/:id', isAuthenticated, isInQuestionSession, (req, res) => {
     res.render('question', data);
 });
 
-app.post('/home/q/:id/:answerID', isAuthenticated, isInQuestionSession, (req, res) => {
-    if (db.isGoodAnswer(req.params.id, req.params.answerID))
+app.post('/home/q/:answerID', isAuthenticated, isInQuestionSession, (req, res) => {
+    if (db.isGoodAnswer(req.session.actualIDQuestion, req.params.answerID))
         req.session.points += 1;
     else
         req.session.points -= 1;
@@ -160,13 +161,12 @@ app.post('/home/q/:id/:answerID', isAuthenticated, isInQuestionSession, (req, re
     req.session.idQuestionsDone.push(req.params.id); // ADDING ACTUAL QUESTION
 
     let nbOfQuestions = db.getNbOfQuestions();
-    let randomInt;
 
     do {
-        randomInt = utils.getRandomInt(nbOfQuestions)
+        req.session.actualIDQuestion = utils.getRandomInt(nbOfQuestions);
     } while (req.session.idQuestionsDone.includes(randomInt)); // CONTINUE UNTIL FOUND QUESTION NOT ASKED BEFORE
 
-    res.render('/home/q/${randomInt}');
+    res.render('/home/q');
 });
 
 app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) => {

@@ -1,0 +1,28 @@
+{{> header}}
+
+
+<div class="jumbotron mt-5">
+    <div class="container">
+      <h1 class="display-4">{{tittle}}</h1>
+      <form>
+        
+            <legend class="col-form-label col-sm-2 pt-0">Réponses :</legend>
+                <div class="col-sm-10">
+                    {{#answers}}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="answerForm" id={{id}} value="{{content}}" onclick="this.form.submit();">
+                        <label class="form-check-label" for="{{content}}">
+                        
+                            {{content}}
+                        
+
+                        </label>
+                    </div>
+                    {{/answers}}
+                    
+                </div>
+        </form>
+    </div>
+</div>
+
+{{> footer}}

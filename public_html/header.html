@@ -13,6 +13,31 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand" href="/">EcoZ</a>
 
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+
+      <ul class="navbar-nav mr-auto">
+        {{#connected}}
+        <li><a href="/profil" class="btn btn-primary mr-2">Profil</a></li>
+
+        <li><a href="/home/startQuestions" class="btn btn-primary mr-2">Commencer le questionnaire</a></li>
+
+        {{/connected}}
+
+        {{#isPremium}}
+          <li><a href="/create" class="btn btn-primary mr-2">Créer une Question</a></li>
+        {{/isPremium}}
+        {{#isAdmin}}
+          <li><a href="/create" class="btn btn-primary mr-2">Créer une Question</a></li>
+        {{/isAdmin}}
+
+
+
+        
+        
+      
+      </ul>
+  
+
 </nav>
 
 <main role="main" class="container" style="margin-top: 3rem">

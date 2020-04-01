@@ -134,7 +134,7 @@ app.get('/home/q', isAuthenticated, isInQuestionSession, (req, res) => {
     let answersArray = [];
 
     answersString.forEach(idAnswer => {
-        answersArray.push(db.getAnswer);
+        answersArray.push(db.getAnswer(idAnswer));
     });
     /*
         ANSWER OBJECT :

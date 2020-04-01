@@ -38,7 +38,7 @@ function isAuthenticated(req, res, next) {
     res.redirect('/login');
 }
 
-function isInQuestionSession() {
+function isInQuestionSession(req, res, next) {
     if (req.session.inQuestionSession === undefined)
         return res.redirect('/home/');
 

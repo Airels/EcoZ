@@ -105,6 +105,9 @@ app.get('/home/', isAuthenticated, (req, res) => {
 });
 
 app.get('/home/startQuestions', isAuthenticated, (req, res) => {
+    if (req.session.inQuestionSession !== undefined)
+        return res.redirect('/home/q');
+        
     req.session.inQuestionSession = true;
     req.session.idQuestionsDone = [];
     req.session.actualIDQuestion = utils.getRandomInt(db.getNbOfQuestions());

@@ -133,7 +133,7 @@ app.get('/home/q', isAuthenticated, isInQuestionSession, (req, res) => {
     let answersString = questionResult.listIDAnswers.split(',');
     let answersArray = [];
 
-    answersString.array.forEach(idAnswer => {
+    answersString.forEach(idAnswer => {
         answersArray.push(db.getAnswer);
     });
     /*

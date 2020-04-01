@@ -105,10 +105,6 @@ app.get('/home/', isAuthenticated, (req, res) => {
 });
 
 app.get('/home/startQuestions', isAuthenticated, (req, res) => {
-    res.render('home/startQuestions');
-});
-
-app.post('/home/startQuestions', isAuthenticated, (req, res) => {
     req.session.inQuestionSession = true;
     req.session.idQuestionsDone = [];
     req.session.actualIDQuestion = utils.getRandomInt(db.getNbOfQuestions());

@@ -31,6 +31,7 @@ function isAuthenticated(req, res, next) {
         res.locals.username = req.session.username;
         res.locals.isAdmin = req.session.isAdmin;
         res.locals.isPremium = req.session.isPremium;
+        res.locals.connected = true;
         return next();
     }
 
@@ -101,13 +102,15 @@ app.post('/register', alreadyAuthenticated, (req, res) => {
 
 // AUTHENTICATION REQUIRED UNTIL HERE
 app.get('/home/', isAuthenticated, (req, res) => {
-    res.render('home/index');
+    let data = {};
+
+    res.render('/home/index', data);
 });
 
 app.get('/home/startQuestions', isAuthenticated, (req, res) => {
     if (req.session.inQuestionSession !== undefined)
         return res.redirect('/home/q');
-        
+
     req.session.inQuestionSession = true;
     req.session.idQuestionsDone = [];
     req.session.actualIDQuestion = utils.getRandomInt(db.getNbOfQuestions());

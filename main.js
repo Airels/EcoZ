@@ -104,11 +104,7 @@ app.post('/register', alreadyAuthenticated, (req, res) => {
 app.get('/home/', isAuthenticated, (req, res) => {
     let data = {};
 
-<<<<<<< HEAD
-    res.render('/home/index/', data);
-=======
     res.render('home/index', data);
->>>>>>> 34576193080be9bfe1530a3db30d943cdd715dbc
 });
 
 app.get('/home/startQuestions', isAuthenticated, (req, res) => {
@@ -134,7 +130,7 @@ app.get('/home/q', isAuthenticated, isInQuestionSession, (req, res) => {
         question.idCorrectAnswer
     */
 
-    let answersString = question.listIDAnswers.split(',');
+    let answersString = questionResult.listIDAnswers.split(',');
     let answersArray = [];
 
     answersString.array.forEach(idAnswer => {

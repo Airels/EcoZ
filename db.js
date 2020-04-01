@@ -65,7 +65,7 @@ exports.isGoodAnswer = (idQuestion, idAnswer) => {
 }
 
 exports.getNbOfQuestions = () => {
-    return (db.prepare("SELECT LENGTH('questions');").run());
+    return (db.prepare("SELECT LENGTH('questions');").get());
 }
 
 // sets

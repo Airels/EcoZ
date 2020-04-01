@@ -38,7 +38,7 @@ function isAuthenticated(req, res, next) {
     res.redirect('/login');
 }
 
-function isInQuestionSession() {
+function isInQuestionSession(req, res, next) {
     if (req.session.inQuestionSession === undefined)
         return res.redirect('/home/');
 
@@ -104,7 +104,11 @@ app.post('/register', alreadyAuthenticated, (req, res) => {
 app.get('/home/', isAuthenticated, (req, res) => {
     let data = {};
 
+<<<<<<< HEAD
     res.render('/home/index/', data);
+=======
+    res.render('home/index', data);
+>>>>>>> 34576193080be9bfe1530a3db30d943cdd715dbc
 });
 
 app.get('/home/startQuestions', isAuthenticated, (req, res) => {
@@ -115,7 +119,7 @@ app.get('/home/startQuestions', isAuthenticated, (req, res) => {
     req.session.idQuestionsDone = [];
     req.session.actualIDQuestion = utils.getRandomInt(db.getNbOfQuestions());
 
-    res.redirect('/home/q/1');
+    res.redirect('/home/q');
 });
 
 app.get('/home/q', isAuthenticated, isInQuestionSession, (req, res) => {
@@ -147,7 +151,7 @@ app.get('/home/q', isAuthenticated, isInQuestionSession, (req, res) => {
         answers: answersArray
     }
 
-    res.render('question', data);
+    res.render('home/question', data);
 });
 
 app.get('/home/a/:answerID', isAuthenticated, isInQuestionSession, (req, res) => {
@@ -157,7 +161,7 @@ app.get('/home/a/:answerID', isAuthenticated, isInQuestionSession, (req, res) =>
         req.session.points -= 1;
 
     if (req.session.idQuestionsDone.length >= 2)
-        return res.redirect("/home/endQuestions");
+        return res.redirect("endQuestions");
 
 
     req.session.idQuestionsDone.push(req.params.id); // ADDING ACTUAL QUESTION
@@ -168,7 +172,7 @@ app.get('/home/a/:answerID', isAuthenticated, isInQuestionSession, (req, res) =>
         req.session.actualIDQuestion = utils.getRandomInt(nbOfQuestions);
     } while (req.session.idQuestionsDone.includes(randomInt)); // CONTINUE UNTIL FOUND QUESTION NOT ASKED BEFORE
 
-    res.render('/home/q');
+    res.redirect('/home/q');
 });
 
 app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) => {
@@ -181,7 +185,7 @@ app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) =
         questionsAsked: req.session.idQuestionsDone,
         goodAnswers: [] // TODO
     }
-    res.render('endQuestions', data);
+    res.render('home/endQuestions', data);
 
     db.setPoints(req.session.username, req.session.points);
 });

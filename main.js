@@ -39,10 +39,10 @@ function isAuthenticated(req, res, next) {
 }
 
 function isInQuestionSession(req, res, next) {
-    if (req.session.inQuestionSession === undefined)
-        return res.redirect('/home/');
-
-    return next();
+    if (req.session.inQuestionSession !== undefined)
+        return next();
+    
+    res.redirect('/home/');
 }
 
 

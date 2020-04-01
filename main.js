@@ -113,7 +113,7 @@ app.get('/home/startQuestions', isAuthenticated, (req, res) => {
 
     req.session.inQuestionSession = true;
     req.session.idQuestionsDone = [];
-    req.session.actualIDQuestion = utils.getRandomInt(db.getNbOfQuestions());
+    req.session.actualIDQuestion = utils.getRandomInt(db.getNbOfQuestions())+1;
 
     res.redirect('/home/q');
 });
@@ -151,7 +151,9 @@ app.get('/home/q', isAuthenticated, isInQuestionSession, (req, res) => {
 });
 
 app.get('/home/a', isAuthenticated, isInQuestionSession, (req, res) => {
-    if (db.isGoodAnswer(req.session.actualIDQuestion, req.query.id))
+    req.session.idQuestionsDone.push(req.session.actualIDQuestion);
+
+    if (db.isGoodAnswer(req.session.actualIDQuestion, req.query.id)) // req.query.a = ID Answer
         req.session.points += 1;
     else
         req.session.points -= 1;
@@ -159,13 +161,10 @@ app.get('/home/a', isAuthenticated, isInQuestionSession, (req, res) => {
     if (req.session.idQuestionsDone.length >= 2)
         return res.redirect("endQuestions");
 
-
-    req.session.idQuestionsDone.push(req.params.id); // ADDING ACTUAL QUESTION
-
     let nbOfQuestions = db.getNbOfQuestions();
 
     do {
-        req.session.actualIDQuestion = utils.getRandomInt(nbOfQuestions);
+        req.session.actualIDQuestion = utils.getRandomInt(nbOfQuestions)+1;
     } while (req.session.idQuestionsDone.includes(req.session.actualIDQuestion)); // CONTINUE UNTIL FOUND QUESTION NOT ASKED BEFORE
 
     res.redirect('/home/q');
@@ -193,7 +192,7 @@ app.use((express.static('public_html')));
 
 // ERRORS
 app.use((req, res) => {
-    res.setHeader(404).send("404 Error - Not found");
+    res.send(404);
 });
 
 

@@ -166,7 +166,7 @@ app.get('/home/a', isAuthenticated, isInQuestionSession, (req, res) => {
 
     do {
         req.session.actualIDQuestion = utils.getRandomInt(nbOfQuestions);
-    } while (req.session.idQuestionsDone.includes(randomInt)); // CONTINUE UNTIL FOUND QUESTION NOT ASKED BEFORE
+    } while (req.session.idQuestionsDone.includes(req.session.actualIDQuestion)); // CONTINUE UNTIL FOUND QUESTION NOT ASKED BEFORE
 
     res.redirect('/home/q');
 });

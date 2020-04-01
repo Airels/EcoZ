@@ -104,7 +104,7 @@ app.post('/register', alreadyAuthenticated, (req, res) => {
 app.get('/home/', isAuthenticated, (req, res) => {
     let data = {};
 
-    res.render('/home/index', data);
+    res.render('/home/index/', data);
 });
 
 app.get('/home/startQuestions', isAuthenticated, (req, res) => {
@@ -150,7 +150,7 @@ app.get('/home/q', isAuthenticated, isInQuestionSession, (req, res) => {
     res.render('question', data);
 });
 
-app.post('/home/q/:answerID', isAuthenticated, isInQuestionSession, (req, res) => {
+app.get('/home/a/:answerID', isAuthenticated, isInQuestionSession, (req, res) => {
     if (db.isGoodAnswer(req.session.actualIDQuestion, req.params.answerID))
         req.session.points += 1;
     else

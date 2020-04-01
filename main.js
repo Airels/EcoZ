@@ -150,8 +150,8 @@ app.get('/home/q', isAuthenticated, isInQuestionSession, (req, res) => {
     res.render('home/question', data);
 });
 
-app.get('/home/a/:answerID', isAuthenticated, isInQuestionSession, (req, res) => {
-    if (db.isGoodAnswer(req.session.actualIDQuestion, req.params.answerID))
+app.get('/home/a', isAuthenticated, isInQuestionSession, (req, res) => {
+    if (db.isGoodAnswer(req.session.actualIDQuestion, req.query.id))
         req.session.points += 1;
     else
         req.session.points -= 1;

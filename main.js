@@ -230,11 +230,22 @@ app.post('/home/profile/changePassword', isAuthenticated, (req, res) => {
 });
 
 app.get('/home/profile/deleteProfile', isAuthenticated, (req, res) => {
-    res.render('/home/deleteProfile');
+    let data = {};
+
+    if (req.query.error == 1)
+        data.wrongPassword = true;
+
+    res.render('/home/deleteProfile', data);
 });
 
 app.post('/home/profile/deleteProfile', isAuthenticated, (req, res) => { // Have to enter password to confirm deletion
+    let password = req.body.password;
 
+    if (!db.login(req.session.username, password))
+        return res.redirect('/home/profile/deleteProfile?error=1');
+
+    db.deleteUser(req.session.username);
+    req.session == undefined;
 });
 
 app.get('/home/addQuestion', isAuthenticated, isPremium, (req, res) => {
@@ -242,22 +253,45 @@ app.get('/home/addQuestion', isAuthenticated, isPremium, (req, res) => {
 });
 
 app.post('/home/addQuestion', isAuthenticated, isPremium, (req, res) => {
+    let question = req.body.question;
+    let answers = [
+        req.body.firstAnswer,
+        req.body.secondAnswer,
+        req.body.thirdAnswer,
+        req.body.fourthAnswer
+    ]
+    let goodAnswer = req.body.goodAnswer; // TODO !!!
 
+    let answersID = [];
+
+    answers.forEach(answer => {
+        if (answer !== undefined)
+            answersID.push(db.addAnswer(answer));
+    });
+
+    if (answersID.length < 2)
+        res.redirect('/home/addQuestion/answersError')
+
+    // db.addQuestion(question, req.session.username, utils.arrayToString(answersID), goodAnswer); // TODO !!
+    res.redirect('/home/addQuestion/done');
 });
 
 app.get('/home/addQuestion/:status', isAuthenticated, isPremium, (req, res) => {
     let status = req.params.status;
+    let data = {};
 
     switch (status) {
         case 'done':
-            // RENDER OK
+            data.done = true;
             break;
-        case 'error':
-            // RENDER ERROR
+        case 'answersError':
+            data.answersError = true;
             break;
         default:
             res.redirect('/home');
     }
+    
+    res.render('/home/addQuestionAfter');
 });
 
 
@@ -265,7 +299,7 @@ app.get('/home/addQuestion/:status', isAuthenticated, isPremium, (req, res) => {
 app.use((express.static('public_html')));
 
 
-// ERRORS
+// IF NO FILES FOUND
 app.use((req, res) => {
     res.send(404);
 });

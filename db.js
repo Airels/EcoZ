@@ -79,9 +79,13 @@ exports.getNbOfQuestions = () => {
 
 // sets
 exports.addQuestion = (question, creator, answers, goodAnswer) => {
+    let today = Date.now();
 
+    db.prepare("INSERT INTO questions (title, creator, creationDate, listIDAnswers, idCorrectAnswer) VALUES(?, ?, ?, ?, ?)").run(question, creator, today, answers, goodAnswer);
 }
 
 exports.addAnswer = (answer) => {
+    db.prepare("INSERT INTO answers (content) VALUES(?)").run(answer);
 
+    return (db.prepare("SELECT id FROM answers WHERE content = ?").get(answer).id);
 }

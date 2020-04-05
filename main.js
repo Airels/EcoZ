@@ -45,6 +45,20 @@ function isInQuestionSession(req, res, next) {
     res.redirect('/home/');
 }
 
+function isPremium(req, res, next) {
+    if (req.session.isPremium)
+        return next();
+
+    res.send(403);
+}
+
+function isAdmin(req, res, next) {
+    if (req.session.isAdmin)
+        return next();
+
+    res.send(404); // To hide to non-admin users admin pages
+}
+
 
 // ROUTES
 app.get('/', alreadyAuthenticated, (req, res) => {
@@ -107,6 +121,7 @@ app.get('/home/', isAuthenticated, (req, res) => {
     res.render('home/index', data);
 });
 
+// QUESTIONS
 app.get('/home/startQuestions', isAuthenticated, (req, res) => {
     if (req.session.inQuestionSession !== undefined)
         return res.redirect('/home/q');
@@ -161,6 +176,9 @@ app.get('/home/a', isAuthenticated, isInQuestionSession, (req, res) => {
     if (req.session.idQuestionsDone.length >= 2)
         return res.redirect("endQuestions");
 
+
+    req.session.idQuestionsDone.push(req.params.id); // ADDING ACTUAL QUESTION
+
     let nbOfQuestions = db.getNbOfQuestions();
 
     do {
@@ -183,6 +201,50 @@ app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) =
     res.render('home/endQuestions', data);
 
     db.setPoints(req.session.username, req.session.points);
+});
+
+// USER PROFILE SETTINGS
+app.get('/home/profile', isAuthenticated, (req, res) => {
+
+});
+
+app.get('/home/profile/changePassword', isAuthenticated, (req, res) => {
+
+});
+
+app.post('/home/profile/changePassword', isAuthenticated, (req, res) => {
+
+});
+
+app.get('/home/profile/deleteProfile', isAuthenticated, (req, res) => {
+
+});
+
+app.post('/home/profile/deleteProfile', isAuthenticated, (req, res) => { // Have to enter password to confirm deletion
+
+});
+
+app.get('/home/addQuestion', isAuthenticated, isPremium, (req, res) => {
+
+});
+
+app.post('/home/addQuestion', isAuthenticated, isPremium, (req, res) => {
+
+});
+
+app.get('/home/addQuestion/:status', isAuthenticated, isPremium, (req, res) => {
+    let status = req.params.status;
+
+    switch (status) {
+        case 'done':
+            // RENDER OK
+            break;
+        case 'error':
+            // RENDER ERROR
+            break;
+        default:
+            res.redirect('/home');
+    }
 });
 
 

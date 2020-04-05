@@ -291,7 +291,7 @@ app.get('/home/addQuestion/:status', isAuthenticated, isPremium, (req, res) => {
             res.redirect('/home');
     }
     
-    res.render('/home/addQuestionAfter');
+    res.render('/home/addQuestionAfter', data);
 });
 
 

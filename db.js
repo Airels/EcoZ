@@ -35,6 +35,10 @@ exports.changePassword = (username, password) => {
     db.prepare("UPDATE users SET password = ? WHERE username = ?").run(password, username);
 }
 
+exports.deleteUser = (username) => {
+    db.prepare('DELETE FROM users WHERE username = ?').run(username);
+}
+
 // permissions
 exports.isAdmin = (username) => {
     return (db.prepare("SELECT isAdmin FROM users WHERE username = ?").get(username)).isAdmin;

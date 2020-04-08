@@ -9,12 +9,16 @@
         Votre nouveau score : {{newPoints}}
         </h1>
     </br>
-        <h1>Les questions étaient:
+        <h3>Les questions qu'on vous as posés : <br />
             {{#questionsAsked}}
-                {{question.title}}
-                 La réponse était : {{goodAnswers}}
+                - {{title}} <br />
             {{/questionsAsked}}
-        </h1>
+        <br /> <br />
+            Les bonnes réponses : <br />
+            {{#goodAnswers}}
+                - {{content}} <br />
+            {{/goodAnswers}}
+        </h3>
     </div>
 </div>
 {{> footer}}

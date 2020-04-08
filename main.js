@@ -167,23 +167,15 @@ app.get('/home/q', isAuthenticated, isInQuestionSession, (req, res) => {
 });
 
 app.get('/home/a', isAuthenticated, isInQuestionSession, (req, res) => {
-    req.session.idQuestionsDone.push(req.session.actualIDQuestion);
+    req.session.idQuestionsDone.push(req.session.actualIDQuestion); // ADDING ACTUAL QUESTION
 
-    if (db.isGoodAnswer(req.session.actualIDQuestion, req.query.id)) { // req.query.a = ID Answer
+    if (db.isGoodAnswer(req.session.actualIDQuestion, req.query.id)) // req.query.a = ID Answer
         req.session.points += 1;
-        console.log("GOOD ANSWER");
-    } else {
+    else
         req.session.points -= 1;
-        console.log("WRONG ANSWER");
-    }
-
-    console.log(req.query.id);
 
     if (req.session.idQuestionsDone.length >= 2)
         return res.redirect("endQuestions");
-
-
-    req.session.idQuestionsDone.push(req.params.id); // ADDING ACTUAL QUESTION
 
     let nbOfQuestions = db.getNbOfQuestions();
 
@@ -195,18 +187,30 @@ app.get('/home/a', isAuthenticated, isInQuestionSession, (req, res) => {
 });
 
 app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) => {
-    req.session.inQuestionSession = undefined;
-    req.session.idQuestionsDone = undefined;
+    let arrayQuestionsAsked = [];
+    let arrayAnswers = [];
+
+    req.session.idQuestionsDone.forEach((id) => {
+        let question = db.getQuestion(id);
+
+        console.log(question);
+
+        arrayQuestionsAsked.push(question);
+        arrayAnswers.push(db.getAnswer(question.idCorrectAnswer));
+    });
 
     let data = {
         oldPoints: db.getPoints(req.session.username),
         newPoints: req.session.points,
-        questionsAsked: req.session.idQuestionsDone,
-        goodAnswers: [] // TODO
+        questionsAsked: arrayQuestionsAsked,
+        goodAnswers: arrayAnswers
     }
     res.render('home/endQuestions', data);
 
     db.setPoints(req.session.username, req.session.points);
+
+    req.session.inQuestionSession = undefined;
+    req.session.idQuestionsDone = undefined;
 });
 
 // USER PROFILE SETTINGS

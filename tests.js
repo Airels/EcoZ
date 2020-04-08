@@ -1,7 +1,7 @@
-let utils = require('./utils');
+let db = require('./db');
 
-let array = [0, 1, 2, 3, 4];
+db.setAdmin('Airels', 'true');
 
-console.log(array);
-
-console.log(utils.arrayToString(array));
+console.log("Is commmand executed ?");
+console.log(db.isAdmin('Airels'));
+console.log(db.isPremium('Airels'));

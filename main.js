@@ -287,7 +287,7 @@ app.post('/home/addQuestion', isAuthenticated, isPremium, (req, res) => {
         req.body.thirdAnswer,
         req.body.fourthAnswer
     ]
-    let goodAnswer = req.body.goodAnswer; // TODO !!!
+    let goodAnswer = req.body.goodAnswer;
 
     let answersID = [];
 
@@ -297,9 +297,12 @@ app.post('/home/addQuestion', isAuthenticated, isPremium, (req, res) => {
     });
 
     if (answersID.length < 2)
-        res.redirect('/home/addQuestion/answersError')
+        return res.redirect('/home/addQuestion/answersError')
+    if (!(/^[1-4]$/.test(goodAnswer)) || goodAnswer > answersID.length)
+        return res.redirect('/home/addQuestion/idAnswerError');
 
-    // db.addQuestion(question, req.session.username, utils.arrayToString(answersID), goodAnswer); // TODO !!
+    console.log(answersID[goodAnswer-1]);
+    db.addQuestion(question, req.session.username, utils.arrayToString(answersID), answersID[goodAnswer-1]);
     res.redirect('/home/addQuestion/done');
 });
 
@@ -310,12 +313,16 @@ app.get('/home/addQuestion/:status', isAuthenticated, isPremium, (req, res) => {
     switch (status) {
         case 'done':
             data.done = true;
+            console.log("Question added!");
             break;
         case 'answersError':
             data.answersError = true;
+            console.log("Answers error");
             break;
-        default:
-            res.redirect('/home');
+        case 'idAnswerError':
+            data.idAnswerError = true;
+            console.log("idAnswerError");
+            break;
     }
     
     res.render('home/addQuestionAfter', data);

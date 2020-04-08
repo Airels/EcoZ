@@ -1,16 +1,28 @@
 {{> header}}
-  <form action="/changePassword" method="post">
+  <form action="/home/profile/deleteProfile" method="post">
     
       <div class="jumbotron mt-5">
         <div class="container">
           <div class="col">
             <h1> Suppresion du compte </h1>
             <p>Mot de passe: <input class="form-control" type="password" name="password" id="actualPassword" required></p>
-            <p>Veuillez confirmer votre mot de passe :  <input class="form-control" type="password" name="password" id="actualPassword" required></p>
+            <p>Veuillez confirmer votre mot de passe :  <input class="form-control" type="password" name="confirmPassword" id="confirmPassword" required></p>
             
 
             <p> Une suppression de compte ne peux être annulé.
-                Par conséquent si vous validez la suppression nous serons dans l'impossibilité de recréer votre compte.</p>
+                Par conséquent si vous validez la suppression nous serons dans l'impossibilité de récupérer votre compte.</p>
+
+            {{#wrongPassword}}
+              wrong password
+            {{/wrongPassword}}
+
+            {{#notSamePassword}}
+              not same password
+            {{/notSamePassword}}
+
+            {{#error1}}
+              Missing input
+            {{/error1}}
 
             <input class="form-control btn btn-danger" type="submit" value="Supprimer définitivement mon compte">
           </div>

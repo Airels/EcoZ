@@ -251,18 +251,28 @@ app.get('/home/profile/deleteProfile', isAuthenticated, (req, res) => {
 
     if (req.query.error == 1)
         data.wrongPassword = true;
+    if (req.query.error == 2)
+        data.notSamePassword = true;
+    if (req.query.error == 3)
+        data.error1 = true;
 
     res.render('home/deleteProfile', data);
 });
 
 app.post('/home/profile/deleteProfile', isAuthenticated, (req, res) => { // Have to enter password to confirm deletion
     let password = req.body.password;
+    let confirmPassword = req.body.confirmPassword;
 
+    if (password == undefined || confirmPassword == undefined)
+        return res.redirect('/home/profile/deleteProfile?error=3');
     if (!db.login(req.session.username, password))
         return res.redirect('/home/profile/deleteProfile?error=1');
+    if (password != confirmPassword)
+        return res.redirect('/home/profile/deleteProfile?error=2');
 
     db.deleteUser(req.session.username);
-    req.session == undefined;
+    req.session = undefined;
+    res.redirect('/');
 });
 
 app.get('/home/addQuestion', isAuthenticated, isPremium, (req, res) => {

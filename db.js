@@ -45,8 +45,17 @@ exports.isAdmin = (username) => {
 };
 
 exports.isPremium = (username) => {
-    return (db.prepare("SELECT isPremium FROM users WHERE username = ?").get(username)).isAdmin;
+    return (db.prepare("SELECT isPremium FROM users WHERE username = ?").get(username)).isPremium;
 };
+
+exports.setAdmin = (username, bool) => {
+    db.prepare("UPDATE users SET isAdmin = ? WHERE username = ?").run(bool, username);
+    this.setPremium(username, bool);
+}
+
+exports.setPremium = (username, bool) => {
+    db.prepare("UPDATE users SET isPremium = ? WHERE username = ?").run(bool, username);
+}
 
 // points
 exports.getPoints = (username) => {

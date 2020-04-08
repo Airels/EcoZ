@@ -91,6 +91,7 @@ app.post('/login', alreadyAuthenticated, (req, res) => {
         return res.redirect('/login?error=2');
     
     req.session.username = username;
+    req.session.points = db.getPoints(username);
     req.session.isAdmin = db.isAdmin(username);
     req.session.isPremium = db.isPremium(username);
     res.redirect('/home/');
@@ -168,10 +169,15 @@ app.get('/home/q', isAuthenticated, isInQuestionSession, (req, res) => {
 app.get('/home/a', isAuthenticated, isInQuestionSession, (req, res) => {
     req.session.idQuestionsDone.push(req.session.actualIDQuestion);
 
-    if (db.isGoodAnswer(req.session.actualIDQuestion, req.query.id)) // req.query.a = ID Answer
+    if (db.isGoodAnswer(req.session.actualIDQuestion, req.query.id)) { // req.query.a = ID Answer
         req.session.points += 1;
-    else
+        console.log("GOOD ANSWER");
+    } else {
         req.session.points -= 1;
+        console.log("WRONG ANSWER");
+    }
+
+    console.log(req.query.id);
 
     if (req.session.idQuestionsDone.length >= 2)
         return res.redirect("endQuestions");
@@ -213,20 +219,31 @@ app.get('/home/profile/changePassword', isAuthenticated, (req, res) => {
 
     if (req.query.error == 1)
         data.wrongPassword = true;
+    if (req.query.error == 2)
+        data.samePassword = true;
+    if (req.query.error == 3)
+        data.error1 == true;
     if (req.query.success == 1)
         data.success = true;
 
-    res.render('home/changePasswd', data);
+    res.render('home/changePassword', data);
 });
 
 app.post('/home/profile/changePassword', isAuthenticated, (req, res) => {
     let password = req.body.password;
+    let newPassword = req.body.newPassword;
 
+    if (password == undefined || newPassword == undefined)
+        return res.redirect('/home/profile/changePassword?error=3');
     if (!db.login(req.session.username, password))
         return res.redirect('/home/profile/changePassword?error=1');
+    if (password == newPassword)
+        return res.redirect('/home/profile/changePassword?error=2');
 
-    db.changePassword(req.session.username, password);
-    res.redirect('/home/changePassword?success=1');
+
+    db.changePassword(req.session.username, newPassword);
+    // res.redirect('/home/changePassword?success=1');
+    res.redirect('/home/profile');
 });
 
 app.get('/home/profile/deleteProfile', isAuthenticated, (req, res) => {

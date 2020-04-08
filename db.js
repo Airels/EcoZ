@@ -70,7 +70,7 @@ exports.getAnswer = (idAnswer) => {
 }
 
 exports.isGoodAnswer = (idQuestion, idAnswer) => {
-    return (idAnswer == this.getQuestion(idQuestion));
+    return (idAnswer == this.getQuestion(idQuestion).idCorrectAnswer);
 }
 
 exports.getNbOfQuestions = () => {

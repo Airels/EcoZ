@@ -205,7 +205,7 @@ app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) =
 
 // USER PROFILE SETTINGS
 app.get('/home/profile', isAuthenticated, (req, res) => {
-    res.render('/home/profile');
+    res.render('home/profile');
 });
 
 app.get('/home/profile/changePassword', isAuthenticated, (req, res) => {
@@ -216,7 +216,7 @@ app.get('/home/profile/changePassword', isAuthenticated, (req, res) => {
     if (req.query.success == 1)
         data.success = true;
 
-    res.render('/home/changePasswd', data);
+    res.render('home/changePasswd', data);
 });
 
 app.post('/home/profile/changePassword', isAuthenticated, (req, res) => {
@@ -235,7 +235,7 @@ app.get('/home/profile/deleteProfile', isAuthenticated, (req, res) => {
     if (req.query.error == 1)
         data.wrongPassword = true;
 
-    res.render('/home/deleteProfile', data);
+    res.render('home/deleteProfile', data);
 });
 
 app.post('/home/profile/deleteProfile', isAuthenticated, (req, res) => { // Have to enter password to confirm deletion
@@ -249,7 +249,7 @@ app.post('/home/profile/deleteProfile', isAuthenticated, (req, res) => { // Have
 });
 
 app.get('/home/addQuestion', isAuthenticated, isPremium, (req, res) => {
-    res.render('/home/addQuestion');
+    res.render('home/addQuestion');
 });
 
 app.post('/home/addQuestion', isAuthenticated, isPremium, (req, res) => {
@@ -291,7 +291,7 @@ app.get('/home/addQuestion/:status', isAuthenticated, isPremium, (req, res) => {
             res.redirect('/home');
     }
     
-    res.render('/home/addQuestionAfter', data);
+    res.render('home/addQuestionAfter', data);
 });
 
 

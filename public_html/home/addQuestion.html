@@ -1,0 +1,28 @@
+{{> header}}
+ 
+<form action="/addQuestion" method="post">
+    
+      <div class="jumbotron mt-5">
+        <div class="container">
+          <div class="col">
+            <h1> Ajouter une nouvelle question </h1>
+
+            <p>Intitulé de la question : <input class="form-control" type="text" name="question" id="question" required></p>
+            <p>Proposition 1 : <input class="form-control" type="text" name="answer" id="asnwer1" required></p>
+            <p>Proposition 2 : <input class="form-control" type="text" name="answer" id="asnwer2" required></p>
+            <p>Proposition 3 : <input class="form-control" type="text" name="answer" id="asnwer3" required></p>
+            <p>Proposition 4 : <input class="form-control" type="text" name="answer4" id="asnwer4" required></p>
+            
+
+            <p>La Réponse est la propostion n° :<input class="form-control" type="text" name="goodAnswer" id="goodAnswer"></p>
+
+            {{#error1}}
+              <p class="text-danger"> Un des champs nécessaire n'est pas rempli.</p>
+            {{/error1}}
+
+            <input class="form-control btn btn-success" type="submit" value="Sousmettre la question">
+          </div>
+        </div>
+      </div>
+  </form>
+{{> footer}}

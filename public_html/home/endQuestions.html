@@ -3,7 +3,17 @@
 <div class="jumbotron mt-5">
     <div class="container">
         <h1 class="display-4">
-        c'est la fin des questions
+        Votre ancien score : {{oldPoints}}
+        </h1>
+        <h1 class="display-4">
+        Votre score actuel: {{newPoints}}
+        </h1>
+    </br>
+        <h1>Les questions étaient:
+            {{#questionsAsked}}
+                {{question.title}}
+                 La réponse était : {{goodAnswers}}
+            {{/questionsAsked}}
         </h1>
     </div>
 </div>

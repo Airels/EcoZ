@@ -86,6 +86,10 @@ exports.getNbOfQuestions = () => {
     return (db.prepare("SELECT COUNT(id) nb FROM questions").get().nb);
 }
 
+exports.getQuestions = () => {
+    return (db.prepare("SELECT * FROM questions").get());
+}
+
 // sets
 exports.addQuestion = (question, creator, answers, goodAnswer) => {
     let today = Date.now();

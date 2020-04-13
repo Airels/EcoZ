@@ -102,3 +102,7 @@ exports.addAnswer = (answer) => {
 
     return (db.prepare("SELECT id FROM answers WHERE content = ?").get(answer).id);
 }
+
+exports.deleteQuestion = (idQuestion) => {
+    db.prepare("DELETE FROM questions WHERE id = ?").run(idQuestion);
+}

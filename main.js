@@ -279,6 +279,7 @@ app.post('/home/profile/deleteProfile', isAuthenticated, (req, res) => { // Have
     res.redirect('/');
 });
 
+// ADDING QUESTION
 app.get('/home/addQuestion', isAuthenticated, isPremium, (req, res) => {
     res.render('home/addQuestion');
 });
@@ -330,6 +331,51 @@ app.get('/home/addQuestion/:status', isAuthenticated, isPremium, (req, res) => {
     }
     
     res.render('home/addQuestionAfter', data);
+});
+
+// ADMIN ROUTES
+app.get('/admin/getQuestions', isAuthenticated, isAdmin, (req, res) => {
+    let data = db.getQuestions;
+
+    res.render('admin/allQuestions', data);
+});
+
+app.get('/admin/getQuestion/:id', isAuthenticated, isAdmin, (req, res) => {
+    let data = {
+        question: db.getQuestion(req.params.id),
+    }
+    let answersArray = [];
+
+    data.question.listIDAnswers.split(',').forEach((answerID) => {
+        answers.push(db.getAnswer(answerID));
+    });
+
+    data.answers = answersArray;
+
+    res.render('admin/question', data); // TODO : Highlight good answer. Get with data.question.idCorrectAnswer
+});
+
+app.get('/admin/questionAction/:action/:id', isAuthenticated, isAdmin, (req, res) => {
+    let action = req.params.action;
+    let id = req.params.id;
+
+    let data = {};
+
+    switch (action) {
+        case "delete":
+            if (db.getQuestion(id) === undefined)
+                data.wrongID = true;
+            else {
+                db.deleteQuestion(id);
+                data.deleted = true;
+            }
+            break;
+        default:
+            data.wrongAction = true;
+            break;
+    }
+
+    res.render("admin/questionAction", data);
 });
 
 

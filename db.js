@@ -97,7 +97,7 @@ exports.getNbOfQuestions = () => {
 }
 
 exports.getQuestions = () => {
-    return (db.prepare("SELECT * FROM questions").get());
+    return (db.prepare("SELECT * FROM questions").all());
 }
 
 // sets

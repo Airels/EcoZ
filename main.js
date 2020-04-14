@@ -355,7 +355,9 @@ app.get('/home/addQuestion/:status', isAuthenticated, isPremium, (req, res) => {
 
 // ADMIN ROUTES
 app.get('/admin/getQuestions', isAuthenticated, isAdmin, (req, res) => {
-    let data = db.getQuestions;
+    let data = {
+        questions: db.getQuestions()
+    }
 
     res.render('admin/allQuestions', data);
 });

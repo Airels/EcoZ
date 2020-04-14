@@ -224,7 +224,7 @@ app.get('/home/profile', isAuthenticated, (req, res) => {
 
 app.get('/home/profile/updateDescription', isAuthenticated, (req, res) => {
     let data = {
-        userDescription: db.getUser(req.session.user).descirption
+        userDescription: db.getUser(req.session.user).description
     }
 
     res.render('home/updateDescription', data);

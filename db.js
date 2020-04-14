@@ -57,6 +57,12 @@ exports.setPremium = (username, bool) => {
     db.prepare("UPDATE users SET isPremium = ? WHERE username = ?").run(bool, username);
 }
 
+// get user
+exports.getUser = (username) => {
+    return (db.prepare("SELECT * FROM users WHERE username = ?").get(username));
+}
+
+
 // points
 exports.getPoints = (username) => {
     return (db.prepare("SELECT totalScore FROM users WHERE username = ?").get(username)).totalScore;

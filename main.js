@@ -215,7 +215,15 @@ app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) =
 
 // USER PROFILE SETTINGS
 app.get('/home/profile', isAuthenticated, (req, res) => {
-    res.render('home/profile');
+    let data = db.getUser(req.session.username);
+
+    res.render('home/profile', data);
+});
+
+app.post('/home/profile/updateDescription', isAuthenticated, (req, res) => {
+    let newDescription = req.body.description;
+
+    db.changeDescription(req.session.username, newDescription);
 });
 
 app.get('/home/profile/changePassword', isAuthenticated, (req, res) => {

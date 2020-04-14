@@ -24,3 +24,4 @@ Improve yourself to make the world better !
     - totalScore
     - isAdmin
     - isPremium
+    - description

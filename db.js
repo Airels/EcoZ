@@ -35,6 +35,10 @@ exports.changePassword = (username, password) => {
     db.prepare("UPDATE users SET password = ? WHERE username = ?").run(password, username);
 }
 
+exports.changeDescription = (username, description) => {
+    db.prepare("UPDATE users SET description = ? WHERE username = ?").run(description, username);
+}
+
 exports.deleteUser = (username) => {
     db.prepare('DELETE FROM users WHERE username = ?').run(username);
 }
@@ -56,6 +60,12 @@ exports.setAdmin = (username, bool) => {
 exports.setPremium = (username, bool) => {
     db.prepare("UPDATE users SET isPremium = ? WHERE username = ?").run(bool, username);
 }
+
+// get user
+exports.getUser = (username) => {
+    return (db.prepare("SELECT * FROM users WHERE username = ?").get(username));
+}
+
 
 // points
 exports.getPoints = (username) => {

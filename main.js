@@ -3,7 +3,9 @@ const express = require('express');
 const mustache = require('mustache-express');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
+
 const SERVER_PORT = 3000;
+const NB_OF_QUESTIONS = 3; // Number of questions users have to answer. /!\ IF > number of questions in database, it will freeze when generates a question.
 
 const db = require('./db')
 const utils = require('./utils');
@@ -174,7 +176,7 @@ app.get('/home/a', isAuthenticated, isInQuestionSession, (req, res) => {
     else
         req.session.points -= 1;
 
-    if (req.session.idQuestionsDone.length >= 2)
+    if (req.session.idQuestionsDone.length >= NB_OF_QUESTIONS)
         return res.redirect("endQuestions");
 
     let nbOfQuestions = db.getNbOfQuestions();

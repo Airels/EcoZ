@@ -1,0 +1,18 @@
+{{> header}}
+ 
+<form action="/home/profile/updateDescription" method="post">
+    
+      <div class="jumbotron mt-5">
+        <div class="container">
+          <div class="col">
+            <h1> Modifier la description  </h1>
+            <p> Description actuelle : {{value}}</p></br>
+
+            <p> Description : <input class="form-control" type="text" name="description" id="userDescription" ></p>
+
+            <input class="form-control btn btn-success" type="submit" value="Changer la description">
+          </div>
+        </div>
+      </div>
+  </form>
+{{> footer}}

@@ -1,0 +1,28 @@
+{{> header}}
+ 
+<form action="/admin/questionAction/" method="post">
+    
+      <div class="jumbotron mt-5">
+        <div class="container">
+          <div class="col">
+            <h1> Ajouter une nouvelle question </h1>
+
+            <p>Intitulé de la question : {{question}}</p>
+            <p>Les réponses proposés : 
+                <ul>
+                    <li>
+                        {{#answers}}
+                    </li>
+                </ul>
+            </p>
+
+            <p>La réponse est la propostion n° : //TODO</p>
+
+
+            <input class="form-control btn btn-success" type="submit" value="Valider la question">
+          </div>
+        </div>
+      </div>
+  </form>
+  <a href="/admin/questionAction/" class="btn btn-primary mr-2">Supprimer la question</a>
+{{> footer}}

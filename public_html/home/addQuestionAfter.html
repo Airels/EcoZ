@@ -1,0 +1,16 @@
+{{> header}}
+ 
+<div class="jumbotron mt-5">
+    <div class="container">
+        <div class="col">
+            <h1> Merci d'avoir pris le temps d'ajouter une question. </h1>
+
+            {{#isPremium}}
+            <li><a href="/home/addQuestion" class="btn btn-primary mr-2">Ajouter une nouvelle question</a></li>
+             {{/isPremium}}
+  
+        </div>
+    </div>
+</div>
+ 
+{{> footer}}

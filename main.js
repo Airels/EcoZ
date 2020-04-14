@@ -234,6 +234,8 @@ app.post('/home/profile/updateDescription', isAuthenticated, (req, res) => {
     let newDescription = req.body.description;
 
     db.changeDescription(req.session.username, newDescription);
+
+    res.redirect('/home/profile');
 });
 
 app.get('/home/profile/changePassword', isAuthenticated, (req, res) => {

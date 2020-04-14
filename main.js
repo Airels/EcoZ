@@ -222,6 +222,14 @@ app.get('/home/profile', isAuthenticated, (req, res) => {
     res.render('home/profile', data);
 });
 
+app.get('/home/profile/updateDescription', isAuthenticated, (req, res) => {
+    let data = {
+        userDescription: db.getUser(req.session.user).descirption
+    }
+
+    res.render('home/updateDescription', data);
+});
+
 app.post('/home/profile/updateDescription', isAuthenticated, (req, res) => {
     let newDescription = req.body.description;
 

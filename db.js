@@ -35,6 +35,10 @@ exports.changePassword = (username, password) => {
     db.prepare("UPDATE users SET password = ? WHERE username = ?").run(password, username);
 }
 
+exports.changeDescription = (username, description) => {
+    db.prepare("UPDATE users SET description = ? WHERE username = ?").run(description, username);
+}
+
 exports.deleteUser = (username) => {
     db.prepare('DELETE FROM users WHERE username = ?').run(username);
 }

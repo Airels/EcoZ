@@ -5,20 +5,19 @@
       <div class="jumbotron mt-5">
         <div class="container">
           <div class="col">
-            <h1> Ajouter une nouvelle question </h1>
+            <h1> {{question.title}}</h1>
 
-            <p>Intitulé de la question : {{question}}</p>
             <p>Les réponses proposés : 
                 <ul>
                     {{#answers}}
-                      <li>
-                          {{content}}
-                      </li>
+                    <li>
+                        {{content}}
+                    </li>
                     {{/answers}}
                 </ul>
             </p>
 
-            <p>La réponse est la propostion n° : {{question.idCorrectAnswer}}</p>
+            <p>La réponse est la propostion n°{{goodAnswer}}</p>
 
 
             <input class="form-control btn btn-danger" type="submit" value="Supprimer la question">

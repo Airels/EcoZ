@@ -370,11 +370,12 @@ app.get('/admin/getQuestion/:id', isAuthenticated, isAdmin, (req, res) => {
 
     data.question.listIDAnswers.split(',').forEach((answerID) => {
         answersArray.push(db.getAnswer(answerID));
+
+        if (data.question.idCorrectAnswer == answerID)
+            data.goodAnswer = answersArray.length;
     });
 
     data.answers = answersArray;
-
-    console.log(data.answers);
 
     res.render('admin/question', data); // TODO : Highlight good answer. Get with data.question.idCorrectAnswer
 });

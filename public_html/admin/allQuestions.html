@@ -2,22 +2,24 @@
 
 <div class="jumbotron mt-5">
   <div class="container">
-    <form method="GET" action="/admin/getQuestion/:id">
+    
     <h3>Voici l'ensemble des questions existantes :</h3>
       
-        {{#questions}}
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="id" value="{{id}}" onclick="this.form.submit();">
-            <label class="form-check-label" for="{{id}}">
-        
+    {{#questions}}
+    <a href="/home/admin/getQuestion/{{id}}">
+     <div class="form-check">
+        <input class="form-check-input" type="radio" name="id" value="{{id}}" href="/admin/getQuestion/{{id}}">
+          <label class="form-check-label" for="{{id}}">
       
-              {{title}}
+      
+            {{title}}
       
 
-             </label>
-        </div>
-    
-      {{/questions}}
+        </label>
+      </div>
+    </a>
+    {{/questions}}
+
   </div>
 </div>
 

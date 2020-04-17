@@ -374,6 +374,8 @@ app.get('/admin/getQuestion/:id', isAuthenticated, isAdmin, (req, res) => {
 
     data.answers = answersArray;
 
+    console.log(data.answers);
+
     res.render('admin/question', data); // TODO : Highlight good answer. Get with data.question.idCorrectAnswer
 });
 

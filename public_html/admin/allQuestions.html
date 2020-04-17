@@ -2,10 +2,22 @@
 
 <div class="jumbotron mt-5">
   <div class="container">
-    <h1 class="display-4">Voici l'ensemble des questions existantes :</h1>
-      <li>
-        {{#data}}
-      </li>
+    <form method="GET" action="/admin/getQuestion/:id">
+    <h3>Voici l'ensemble des questions existantes :</h3>
+      
+        {{#questions}}
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="id" value="{{id}}" onclick="this.form.submit();">
+            <label class="form-check-label" for="{{id}}">
+        
+      
+              {{title}}
+      
+
+             </label>
+        </div>
+    
+      {{/questions}}
   </div>
 </div>
 

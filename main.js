@@ -369,7 +369,7 @@ app.get('/admin/getQuestion/:id', isAuthenticated, isAdmin, (req, res) => {
     let answersArray = [];
 
     data.question.listIDAnswers.split(',').forEach((answerID) => {
-        answers.push(db.getAnswer(answerID));
+        answersArray.push(db.getAnswer(answerID));
     });
 
     data.answers = answersArray;

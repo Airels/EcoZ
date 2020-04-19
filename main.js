@@ -124,6 +124,11 @@ app.get('/home/', isAuthenticated, (req, res) => {
     res.render('home/index', data);
 });
 
+app.get('/home/disconnect', isAuthenticated, (req, res) => {
+    req.session = undefined;
+    req.redirect('/');
+});
+
 // QUESTIONS
 app.get('/home/startQuestions', isAuthenticated, (req, res) => {
     if (req.session.inQuestionSession !== undefined)

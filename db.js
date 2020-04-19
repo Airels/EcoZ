@@ -114,7 +114,7 @@ exports.addAnswer = (answer) => {
 }
 
 exports.deleteQuestion = (idQuestion) => {
-    db.getQuestion(idQuestion).listIDAnswers.split(',').forEach((idAnswer) => {
+    this.getQuestion(idQuestion).listIDAnswers.split(',').forEach((idAnswer) => {
         db.prepare("DELETE FROM answers WHERE id = ?").run(idAnswer);
     });
 

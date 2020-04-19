@@ -7,11 +7,11 @@
           {{question.title}}
       </h1>
         
-        <legend class="col-form-label col-sm-2 pt-0">Réponses :</legend>
         <div class="card">
+            <div class="card-header">Réponses :</div>
             <ul class="list-group list-group-flush">
                 {{#answers}}
-                    <a href="/home/a?id={{id}}">{{content}}</a>
+                    <a href="/home/a?id={{id}}"><li class="list-group-item">{{content}}</li></a>
                 {{/answers}}
             </ul>
         </div>

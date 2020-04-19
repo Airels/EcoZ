@@ -25,3 +25,6 @@ Improve yourself to make the world better !
     - isAdmin
     - isPremium
     - description
+
+
+*Note: Execute testUsers.js to use special accounts to test website permissions*

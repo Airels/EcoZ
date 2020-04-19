@@ -5,20 +5,13 @@
     
     <h3>Voici l'ensemble des questions existantes :</h3>
       
-    {{#questions}}
-    <a href="/admin/getQuestion/{{id}}">
-     <div class="form-check">
-        <input class="form-check-input" type="radio" name="id" value="{{id}}">
-          <label class="form-check-label" for="{{id}}">
-      
-      
-            {{title}}
-      
-
-        </label>
-      </div>
-    </a>
-    {{/questions}}
+    <div class="card">
+      <ul class="list-group list-group-flush">
+        {{#questions}}
+          <li class="list-group-item">{{title}} <a href="/admin/getQuestion/{{id}}"><img src="/resources/view.png" alt="View question" /></a></li>
+        {{/questions}}
+      </ul>
+    </div>
 
   </div>
 </div>

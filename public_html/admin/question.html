@@ -1,29 +1,25 @@
 {{> header}}
- 
-<form action="/admin/questionAction/delete:id" method="post">
-    
-      <div class="jumbotron mt-5">
-        <div class="container">
-          <div class="col">
-            <h1> {{question.title}}</h1>
+  <div class="jumbotron mt-5">
+    <div class="container">
+      <div class="col">
+        <h1> {{question.title}}</h1>
 
-            <p>Les réponses proposés : 
-                <ul>
-                    {{#answers}}
-                    <li>
-                        {{content}}
-                    </li>
-                    {{/answers}}
-                </ul>
-            </p>
+        <p>Les réponses proposés : 
+            <ul>
+                {{#answers}}
+                <li>
+                    {{content}}
+                </li>
+                {{/answers}}
+            </ul>
+        </p>
 
-            <p>La réponse est la propostion n°{{goodAnswer}}</p>
+        <p>La réponse est la propostion n°{{goodAnswer}}</p>
 
-
-            <input class="form-control btn btn-danger" type="submit" value="Supprimer la question">
-          </div>
-        </div>
+        <a href="/admin/questionAction/delete/{{question.id}}" class="btn btn-danger">Supprimer la question</a>
       </div>
-  </form>
+    </div>
+  </div>
+
   <a href="/admin/allQuestions" class="btn btn-primary mr-2">Retourner a la liste des questions</a>
 {{> footer}}

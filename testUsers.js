@@ -11,8 +11,8 @@ console.log(db.login("admin", "admin"));
 console.log(db.login("premium", "premium"));
 console.log(db.login("user", "user"));
 
-db.setAdmin("admin", true);
-db.setPremium("premium", true);
+db.setAdmin("admin", "true");
+db.setPremium("premium", "true");
 
 console.log("Is accounts creditations successful ?");
 console.log(db.isAdmin("admin"));

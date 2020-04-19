@@ -126,7 +126,7 @@ app.get('/home/', isAuthenticated, (req, res) => {
 
 app.get('/home/disconnect', isAuthenticated, (req, res) => {
     req.session = undefined;
-    req.redirect('/');
+    res.redirect('/');
 });
 
 // QUESTIONS

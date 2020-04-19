@@ -9,16 +9,23 @@
         Votre nouveau score : {{newPoints}}
         </h1>
     </br>
-        <h3>Les questions qu'on vous as posés : <br />
-            {{#questionsAsked}}
-                - {{title}} <br />
-            {{/questionsAsked}}
-        <br /> <br />
-            Les bonnes réponses : <br />
-            {{#goodAnswers}}
-                - {{content}} <br />
-            {{/goodAnswers}}
-        </h3>
+        <div class="card">
+            <div class="card-header">Les questions que l'on vous a posés :</div>
+            <ul class="list-group list-group-flush">
+                {{#questionsAsked}}
+                    <li class="list-group-item">{{title}}</li>
+                {{/questionsAsked}}
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Les bonnes réponses associés :</div>
+            <ul class="list-group list-group-flush">
+                {{#goodAnswers}}
+                    <li class="list-group-item">{{content}}</li>
+                {{/goodAnswers}}
+            </ul>
+        </div>
     </div>
 </div>
 {{> footer}}

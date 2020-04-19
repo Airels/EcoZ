@@ -6,28 +6,18 @@
       <h1 class="display-4">
           {{question.title}}
       </h1>
-      <form method="GET" action="/home/a">
         
-            <legend class="col-form-label col-sm-2 pt-0">Réponses :</legend>
-                <div class="col-sm-10">
-                    {{#answers}}
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="id" value="{{id}}" onclick="this.form.submit();">
-                        <label class="form-check-label" for="{{id}}">
-                        
-                            {{content}}
-                        
+        <legend class="col-form-label col-sm-2 pt-0">Réponses :</legend>
+        <div class="card">
+            <ul class="list-group list-group-flush">
+                {{#answers}}
+                    <a href="/home/a?id={{id}}">{{content}}</a>
+                {{/answers}}
+            </ul>
+        </div>
 
-                        </label>
-                    </div>
-                    {{/answers}}
-
-                    
-                </div>
-
-                </br>
-                <p>Question créer par : {{question.creator}}</p>
-        </form>
+            </br>
+        <p>Question crée par : {{question.creator}}</p>
     </div>
 </div>
 

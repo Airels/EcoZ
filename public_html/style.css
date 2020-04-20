@@ -4,5 +4,8 @@ body{
     margin: 0;
 
     background-image: url("/resources/background.jpg");
+
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
 }

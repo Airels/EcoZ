@@ -176,10 +176,11 @@ app.get('/home/q', isAuthenticated, isInQuestionSession, (req, res) => {
 app.get('/home/a', isAuthenticated, isInQuestionSession, (req, res) => {
     req.session.idQuestionsDone.push(req.session.actualIDQuestion); // ADDING ACTUAL QUESTION
 
-    if (db.isGoodAnswer(req.session.actualIDQuestion, req.query.id)) // req.query.a = ID Answer
+    if (db.isGoodAnswer(req.session.actualIDQuestion, req.query.id)) { // req.query.a = ID Answer
         req.session.points += 1;
-    else
+    } else {
         req.session.points -= 1;
+    }
 
     if (req.session.idQuestionsDone.length >= NB_OF_QUESTIONS)
         return res.redirect("endQuestions");
@@ -200,8 +201,6 @@ app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) =
     req.session.idQuestionsDone.forEach((id) => {
         let question = db.getQuestion(id);
 
-        console.log(question);
-
         arrayQuestionsAsked.push(question);
         arrayAnswers.push(db.getAnswer(question.idCorrectAnswer));
     });
@@ -212,12 +211,13 @@ app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) =
         questionsAsked: arrayQuestionsAsked,
         goodAnswers: arrayAnswers
     }
-    res.render('home/endQuestions', data);
 
     db.setPoints(req.session.username, req.session.points);
 
     req.session.inQuestionSession = undefined;
     req.session.idQuestionsDone = undefined;
+
+    res.render('home/endQuestions', data);
 });
 
 // USER PROFILE SETTINGS
@@ -331,7 +331,6 @@ app.post('/home/addQuestion', isAuthenticated, isPremium, (req, res) => {
     if (!(/^[1-4]$/.test(goodAnswer)) || goodAnswer > answersID.length)
         return res.redirect('/home/addQuestion/idAnswerError');
 
-    console.log(answersID[goodAnswer-1]);
     db.addQuestion(question, req.session.username, utils.arrayToString(answersID), answersID[goodAnswer-1]);
     res.redirect('/home/addQuestion/done');
 });

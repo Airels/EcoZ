@@ -176,11 +176,10 @@ app.get('/home/q', isAuthenticated, isInQuestionSession, (req, res) => {
 app.get('/home/a', isAuthenticated, isInQuestionSession, (req, res) => {
     req.session.idQuestionsDone.push(req.session.actualIDQuestion); // ADDING ACTUAL QUESTION
 
-    if (db.isGoodAnswer(req.session.actualIDQuestion, req.query.id)) { // req.query.a = ID Answer
+    if (db.isGoodAnswer(req.session.actualIDQuestion, req.query.id)) // req.query.a = ID Answer
         req.session.points += 1;
-    } else {
+    else
         req.session.points -= 1;
-    }
 
     if (req.session.idQuestionsDone.length >= NB_OF_QUESTIONS)
         return res.redirect("endQuestions");
@@ -198,6 +197,8 @@ app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) =
     let arrayQuestionsAsked = [];
     let arrayAnswers = [];
 
+    if (req.session.points < 0) req.session.points = 0;
+
     req.session.idQuestionsDone.forEach((id) => {
         let question = db.getQuestion(id);
 
@@ -207,7 +208,7 @@ app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) =
 
     let data = {
         oldPoints: db.getPoints(req.session.username),
-        newPoints: (req.session.points < 0) ? 0 : req.session.points,
+        newPoints: req.session.points,
         questionsAsked: arrayQuestionsAsked,
         goodAnswers: arrayAnswers
     }

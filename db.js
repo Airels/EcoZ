@@ -6,7 +6,7 @@ const db = new sqlite('db.sqlite');
 
 // access
 exports.login = (username, password) => {
-    let found = db.prepare("SELECT id FROM users WHERE username = ? AND password = ? AND totalScore = 0 AND description = ?").get([username, password, "Ajoutez une description !"]);
+    let found = db.prepare("SELECT id FROM users WHERE username = ? AND password = ?").get([username, password]);
 
     return (found !== undefined);
 }
@@ -17,11 +17,12 @@ exports.register = (username, password, email) => {
     let found = db.prepare("SELECT id FROM users WHERE username = ? OR mail = ?").get([username, email]);
     
     if (found === undefined) {
-        db.prepare("INSERT INTO users (username, password, mail, hereSince) VALUES(?, ?, ?, ?)").run([
+        db.prepare("INSERT INTO users (username, password, mail, hereSince, description, totalScore) VALUES(?, ?, , ?, ?, 0)").run([
             username,
             password,
             email,
-            today
+            today,
+            "Ajoutez une description !"
         ]);
 
         return true;

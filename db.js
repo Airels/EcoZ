@@ -75,6 +75,7 @@ exports.getPoints = (username) => {
 
 exports.setPoints = (username, points) => {
     if (points < 0) points = 0;
+
     db.prepare("UPDATE users SET totalScore = ? WHERE username = ?").run(points, username);
 }
 

@@ -207,7 +207,7 @@ app.get('/home/endQuestions', isAuthenticated, isInQuestionSession, (req, res) =
 
     let data = {
         oldPoints: db.getPoints(req.session.username),
-        newPoints: req.session.points,
+        newPoints: (req.session.points < 0) ? 0 : req.session.points,
         questionsAsked: arrayQuestionsAsked,
         goodAnswers: arrayAnswers
     }

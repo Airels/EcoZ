@@ -6,7 +6,7 @@ const db = new sqlite('db.sqlite');
 
 // access
 exports.login = (username, password) => {
-    let found = db.prepare("SELECT id FROM users WHERE username = ? AND password = ?").get([username, password]);
+    let found = db.prepare("SELECT id FROM users WHERE username = ? AND password = ? AND totalScore = 0 AND description = ?").get([username, password, "Ajoutez une description !"]);
 
     return (found !== undefined);
 }
@@ -73,6 +73,7 @@ exports.getPoints = (username) => {
 }
 
 exports.setPoints = (username, points) => {
+    if (points < 0) points = 0;
     db.prepare("UPDATE users SET totalScore = ? WHERE username = ?").run(points, username);
 }
 

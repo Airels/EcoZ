@@ -120,7 +120,9 @@ app.post('/register', alreadyAuthenticated, (req, res) => {
 
 // AUTHENTICATION REQUIRED UNTIL HERE
 app.get('/home/', isAuthenticated, (req, res) => {
-    let data = {};
+    let data = {
+        points: req.session.points
+    };
 
     res.render('home/index', data);
 });

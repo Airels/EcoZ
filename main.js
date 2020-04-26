@@ -6,7 +6,7 @@ const cookieSession = require('cookie-session');
 
 const SERVER_PORT = 3000;
 const NB_OF_QUESTIONS = 3; // Number of questions users have to answer. /!\ IF > number of questions in database, it will freeze when generates a question.
-const POINTS_TO_BE_PREMIUM = 10; // Points needed to be premium
+const POINTS_TO_BE_PREMIUM = 100; // Points needed to be premium
 
 const db = require('./db')
 const utils = require('./utils');

@@ -17,7 +17,7 @@ exports.register = (username, password, email) => {
     let found = db.prepare("SELECT id FROM users WHERE username = ? OR mail = ?").get([username, email]);
     
     if (found === undefined) {
-        db.prepare("INSERT INTO users (username, password, mail, hereSince, description, totalScore) VALUES(?, ?, , ?, ?, 0)").run([
+        db.prepare("INSERT INTO users (username, password, mail, hereSince, description, totalScore) VALUES(?, ?, ?, ?, ?, 0)").run([
             username,
             password,
             email,

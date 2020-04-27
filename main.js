@@ -52,14 +52,14 @@ function isPremium(req, res, next) {
     if (req.session.isPremium)
         return next();
 
-    res.send(403);
+    res.redirect('/error/403');
 }
 
 function isAdmin(req, res, next) {
     if (req.session.isAdmin)
         return next();
 
-    res.send(404); // To hide to non-admin users admin pages
+    res.redirect('/error/404'); // To hide to non-admin users admin pages
 }
 
 
@@ -417,6 +417,16 @@ app.get('/admin/questionAction/:action/:id', isAuthenticated, isAdmin, (req, res
     res.render("admin/questionAction", data);
 });
 
+app.get('/error/404', (req, res) => {
+    res.status(404);
+    res.render('error/404.html');
+});
+
+app.get('/error/403', (req, res) => {
+    res.status(403);
+    res.render('error/403.html');
+});
+
 
 // STATIC FILES
 app.use((express.static('public_html')));
@@ -424,7 +434,7 @@ app.use((express.static('public_html')));
 
 // IF NO FILES FOUND
 app.use((req, res) => {
-    res.send(404);
+    res.redirect('/error/404');
 });
 
 

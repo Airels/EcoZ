@@ -427,6 +427,11 @@ app.get('/error/403', (req, res) => {
     res.render('error/403.html');
 });
 
+app.get('/error/418', (req, res) => {
+    res.status(418);
+    res.render('error/418.html');
+});
+
 
 // STATIC FILES
 app.use((express.static('public_html')));

@@ -95,6 +95,7 @@ app.post('/login', alreadyAuthenticated, (req, res) => {
     
     req.session.username = username;
     req.session.points = db.getPoints(username);
+    if (req.session.points == null) req.session.points = 0; 
     req.session.isAdmin = db.isAdmin(username);
     req.session.isPremium = db.isPremium(username);
     res.redirect('/home/');
